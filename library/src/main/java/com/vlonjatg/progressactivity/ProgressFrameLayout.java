@@ -361,6 +361,8 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
 
         if (centerVertical) {
             layoutParams.gravity = Gravity.CENTER;
+        } else {
+            layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.progress_activity_margin_top);
         }
 
         return layoutParams;

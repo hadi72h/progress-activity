@@ -429,6 +429,8 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
 
         if (centerVertical) {
             layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
+        } else {
+            layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.progress_activity_margin_top);
         }
 
         return layoutParams;

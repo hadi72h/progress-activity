@@ -362,6 +362,7 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
 
         if (!centerVertical) {
             rule = ALIGN_PARENT_TOP;
+            layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.progress_activity_margin_top);
         }
 
         layoutParams.addRule(rule);
@@ -393,11 +394,7 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
                 this.setBackgroundColor(emptyStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.addRule(CENTER_IN_PARENT);
-
-            addView(emptyState, layoutParams);
+            addView(emptyState, getDefaultLayoutParams());
         } else {
             emptyState.setVisibility(VISIBLE);
         }
@@ -431,11 +428,7 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
                 this.setBackgroundColor(errorStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.addRule(CENTER_IN_PARENT);
-
-            addView(errorState, layoutParams);
+            addView(errorState, getDefaultLayoutParams());
         } else {
             errorState.setVisibility(VISIBLE);
         }
