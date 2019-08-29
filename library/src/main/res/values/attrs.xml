@@ -2,6 +2,8 @@
 <resources>
 
     <declare-styleable name="ProgressActivity">
+        <attr name="centerVertical" format="boolean" />
+
         <attr name="loadingProgressBarWidth" format="dimension" />
         <attr name="loadingProgressBarHeight" format="dimension" />
         <attr name="loadingProgressBarColor" format="color" />

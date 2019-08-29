@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +47,8 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
     private TextView errorStateTitleTextView;
     private TextView errorStateContentTextView;
     private Button errorStateButton;
+
+    private boolean centerVertical;
 
     private int loadingStateProgressBarWidth;
     private int loadingStateProgressBarHeight;
@@ -91,6 +93,9 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ProgressActivity);
+
+        centerVertical =
+                typedArray.getBoolean(R.styleable.ProgressActivity_centerVertical, true);
 
         //Loading state attrs
         loadingStateProgressBarWidth =
@@ -344,14 +349,7 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
                 this.setBackgroundColor(loadingStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.topToTop = ConstraintSet.PARENT_ID;
-            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
-            layoutParams.startToStart = ConstraintSet.PARENT_ID;
-            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
-
-            addView(loadingState, layoutParams);
+            addView(loadingState, getDefaultLayoutParams());
         } else {
             loadingState.setVisibility(VISIBLE);
         }
@@ -381,14 +379,7 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
                 this.setBackgroundColor(emptyStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.topToTop = ConstraintSet.PARENT_ID;
-            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
-            layoutParams.startToStart = ConstraintSet.PARENT_ID;
-            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
-
-            addView(emptyState, layoutParams);
+            addView(emptyState, getDefaultLayoutParams());
         } else {
             emptyState.setVisibility(VISIBLE);
         }
@@ -422,17 +413,25 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
                 this.setBackgroundColor(errorStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.topToTop = ConstraintSet.PARENT_ID;
-            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
-            layoutParams.startToStart = ConstraintSet.PARENT_ID;
-            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
-
-            addView(errorState, layoutParams);
+            addView(errorState, getDefaultLayoutParams());
         } else {
             errorState.setVisibility(VISIBLE);
         }
+    }
+
+    private ViewGroup.LayoutParams getDefaultLayoutParams() {
+        LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                centerVertical ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        layoutParams.topToTop = ConstraintSet.PARENT_ID;
+        layoutParams.startToStart = ConstraintSet.PARENT_ID;
+        layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+
+        if (centerVertical) {
+            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
+        }
+
+        return layoutParams;
     }
 
     @Override

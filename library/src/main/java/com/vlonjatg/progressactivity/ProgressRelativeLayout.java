@@ -47,6 +47,8 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
     private TextView errorStateContentTextView;
     private Button errorStateButton;
 
+    private boolean centerVertical;
+
     private int loadingStateProgressBarWidth;
     private int loadingStateProgressBarHeight;
     private int loadingStateProgressBarColor;
@@ -90,6 +92,9 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ProgressActivity);
+
+        centerVertical =
+                typedArray.getBoolean(R.styleable.ProgressActivity_centerVertical, true);
 
         //Loading state attrs
         loadingStateProgressBarWidth =
@@ -343,14 +348,25 @@ public class ProgressRelativeLayout extends RelativeLayout implements ProgressLa
                 this.setBackgroundColor(loadingStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.addRule(CENTER_IN_PARENT);
-
-            addView(loadingState, layoutParams);
+            addView(loadingState, getDefaultLayoutParams());
         } else {
             loadingState.setVisibility(VISIBLE);
         }
+    }
+
+    private ViewGroup.LayoutParams getDefaultLayoutParams() {
+        LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                centerVertical ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        int rule = CENTER_IN_PARENT;
+
+        if (!centerVertical) {
+            rule = ALIGN_PARENT_TOP;
+        }
+
+        layoutParams.addRule(rule);
+
+        return layoutParams;
     }
 
     private void inflateEmptyView() {

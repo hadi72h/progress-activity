@@ -48,6 +48,8 @@ public class ProgressLinearLayout extends LinearLayout implements ProgressLayout
     private TextView errorStateContentTextView;
     private Button errorStateButton;
 
+    private boolean centerVertical;
+
     private int loadingStateProgressBarWidth;
     private int loadingStateProgressBarHeight;
     private int loadingStateProgressBarColor;
@@ -91,6 +93,9 @@ public class ProgressLinearLayout extends LinearLayout implements ProgressLayout
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ProgressActivity);
+
+        centerVertical =
+                typedArray.getBoolean(R.styleable.ProgressActivity_centerVertical, true);
 
         //Loading state attrs
         loadingStateProgressBarWidth =
@@ -344,14 +349,21 @@ public class ProgressLinearLayout extends LinearLayout implements ProgressLayout
                 this.setBackgroundColor(loadingStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = Gravity.CENTER;
-
-            addView(loadingState, layoutParams);
+            addView(loadingState, getDefaultLayoutParams());
         } else {
             loadingState.setVisibility(VISIBLE);
         }
+    }
+
+    private ViewGroup.LayoutParams getDefaultLayoutParams() {
+        LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                centerVertical ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        if (centerVertical) {
+            layoutParams.gravity = Gravity.CENTER;
+        }
+
+        return layoutParams;
     }
 
     private void inflateEmptyView() {
@@ -378,11 +390,7 @@ public class ProgressLinearLayout extends LinearLayout implements ProgressLayout
                 this.setBackgroundColor(emptyStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = Gravity.CENTER;
-
-            addView(emptyState, layoutParams);
+            addView(emptyState, getDefaultLayoutParams());
         } else {
             emptyState.setVisibility(VISIBLE);
         }
@@ -416,11 +424,7 @@ public class ProgressLinearLayout extends LinearLayout implements ProgressLayout
                 this.setBackgroundColor(errorStateBackgroundColor);
             }
 
-            LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = Gravity.CENTER;
-
-            addView(errorState, layoutParams);
+            addView(errorState, getDefaultLayoutParams());
         } else {
             errorState.setVisibility(VISIBLE);
         }
