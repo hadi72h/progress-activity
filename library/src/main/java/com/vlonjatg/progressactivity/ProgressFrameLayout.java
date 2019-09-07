@@ -7,6 +7,7 @@ import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -163,6 +164,10 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
         typedArray.recycle();
 
         defaultBackground = this.getBackground();
+    }
+
+    public void setCenterVertical(boolean centerVertical) {
+        this.centerVertical = centerVertical;
     }
 
     @Override
@@ -382,10 +387,10 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
             emptyStateImageView.getLayoutParams().height = emptyStateImageHeight;
             emptyStateImageView.requestLayout();
 
-            emptyStateTitleTextView.setTextSize(emptyStateTitleTextSize);
+            emptyStateTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyStateTitleTextSize);
             emptyStateTitleTextView.setTextColor(emptyStateTitleTextColor);
 
-            emptyStateContentTextView.setTextSize(emptyStateContentTextSize);
+            emptyStateContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyStateContentTextSize);
             emptyStateContentTextView.setTextColor(emptyStateContentTextColor);
 
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
@@ -413,10 +418,10 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
             errorStateImageView.getLayoutParams().height = errorStateImageHeight;
             errorStateImageView.requestLayout();
 
-            errorStateTitleTextView.setTextSize(errorStateTitleTextSize);
+            errorStateTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorStateTitleTextSize);
             errorStateTitleTextView.setTextColor(errorStateTitleTextColor);
 
-            errorStateContentTextView.setTextSize(errorStateContentTextSize);
+            errorStateContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorStateContentTextSize);
             errorStateContentTextView.setTextColor(errorStateContentTextColor);
 
             errorStateButton.setTextColor(errorStateButtonTextColor);
